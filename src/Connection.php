@@ -2,7 +2,7 @@
 
 namespace ZTE;
 
-class Wifi
+class Connection
 {
 
   private $_modem_ip = "";
@@ -15,7 +15,7 @@ class Wifi
   }
 
   /*
-  * Enable or Disable Wifi
+  * Enable or Disable Connection
   * return @array or @string
   */
   public function disable_enable()
@@ -24,17 +24,15 @@ class Wifi
       return "Error_-_Invalid_Wifi_Type";
     }
 
-    $data = "goformId=SET_WIFI_INFO";
-    $data .="&isTest=false";
-    $data .="&m_ssid_enable=0";
-    $data .="&wifiEnabled=%type%";
+    $data ="isTest=false";
+    $data .="&notCallback=true";
 
     if ($this->_type == "DIS") {
-      $data = str_replace('%type%', 0, $data);
+      $data .="&goformId=DISCONNECT_NETWORK";
     }
 
     if ($this->_type == "ENA") {
-      $data = str_replace('%type%', 1, $data);
+      $data .="&goformId=CONNECT_NETWORK";
     }
 
     $curl = new Curl($this->_modem_ip, 'POST', $data);

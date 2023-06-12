@@ -2,58 +2,66 @@
 
 require "vendor/autoload.php";
 
-$modem_ip = '';
-$passwd = '';
+$modem_ip = '192.168.0.1';
+$passwd = 'admin';
 
-if ( (strlen($modem_ip)<1) && (strlen($passwd)<1) ) {
+if ((strlen($modem_ip)<1) && (strlen($passwd)<1)) {
   echo "Please set your modem_ip (Ex: 192.168.0.1) and set your password\n";
   exit;
 }
 
 if (!array_key_exists(1, $argv)) {
   echo "How to use:\n";
-  echo "arg1 |  arg2  |   arg3  |\n";
-  echo "-----|--------|---------|\n";
-  echo "login| on/off |         | => Login or Logoff\n";
-  echo "-----|--------|---------|\n";
-  echo "ls   |        |         | => List all Messages\n";
-  echo "-----|--------|---------|\n";
-  echo "rm   | #      |         | => Delete the # Message\n";
-  echo "-----|--------|---------|\n";
-  echo "rm   | *      |         | => Delete all Messages\n";
-  echo "-----|--------|---------|\n";
-  echo "snd  | Phone# | Message | => Send The 'Message' to Phone#\n";
-  echo "-----|--------|---------|\n";
-  echo "wifi | on/off |         | => Enable or Disable Wifi\n";
-  echo "-----|--------|---------|\n";
-  echo "wan  | on/off |         | => Enable or Disable WAN\n";
-  echo "-----|--------|---------|\n";
-  echo "hack |        |         | => Hack Modem\n";
-  echo "-----|--------|---------|\n";
+  echo "arg1   |  arg2  |   arg3  |\n";
+  echo "-------|--------|---------|\n";
+  echo "login  | on/off |         | => Login or Logoff\n";
+  echo "-------|--------|---------|\n";
+  echo "ls     |        |         | => List all Messages\n";
+  echo "-------|--------|---------|\n";
+  echo "rm     | #      |         | => Delete the # Message\n";
+  echo "-------|--------|---------|\n";
+  echo "rm     | *      |         | => Delete all Messages\n";
+  echo "-------|--------|---------|\n";
+  echo "snd    | Phone# | Message | => Send The 'Message' to Phone#\n";
+  echo "-------|--------|---------|\n";
+  echo "wifi   | on/off |         | => Enable or Disable Wifi\n";
+  echo "-------|--------|---------|\n";
+  echo "wan    | on/off |         | => Enable or Disable WAN\n";
+  echo "-------|--------|---------|\n";
+  echo "hack   |        |         | => Hack Modem\n";
+  echo "-------|--------|---------|\n";
+  echo "data   | on/off |         | => Enable or Disable Data Connection\n";
+  echo "-------|--------|---------|\n";
+  echo "device |        |         | => Device Info\n";
+  echo "-------|--------|---------|\n";
   exit;
 }
 
-if ( ($argv[1]!='login') && ($argv[1]!='ls') && ($argv[1]!='rm') && ($argv[1]!='snd')
-  && ($argv[1]!='wifi') && ($argv[1]!='wan') && ($argv[1]!='hack') ) {
+if (($argv[1]!='login') && ($argv[1]!='ls') && ($argv[1]!='rm') && ($argv[1]!='snd')
+  && ($argv[1]!='wifi') && ($argv[1]!='wan') && ($argv[1]!='hack') && ($argv[1]!='data') && ($argv[1]!='device')) {
     echo "How to use:\n";
-    echo "arg1 |  arg2  |   arg3  |\n";
-    echo "-----|--------|---------|\n";
-    echo "login| on/off |         | => Login or Logoff\n";
-    echo "-----|--------|---------|\n";
-    echo "ls   |        |         | => List all Messages\n";
-    echo "-----|--------|---------|\n";
-    echo "rm   | #      |         | => Delete the # Message\n";
-    echo "-----|--------|---------|\n";
-    echo "rm   | *      |         | => Delete all Messages\n";
-    echo "-----|--------|---------|\n";
-    echo "snd  | Phone# | Message | => Send The 'Message' to Phone#\n";
-    echo "-----|--------|---------|\n";
-    echo "wifi | on/off |         | => Enable or Disable Wifi\n";
-    echo "-----|--------|---------|\n";
-    echo "wan  | on/off |         | => Enable or Disable WAN\n";
-    echo "-----|--------|---------|\n";
-    echo "hack |        |         | => Hack Modem\n";
-    echo "-----|--------|---------|\n";
+    echo "arg1   |  arg2  |   arg3  |\n";
+    echo "-------|--------|---------|\n";
+    echo "login  | on/off |         | => Login or Logoff\n";
+    echo "-------|--------|---------|\n";
+    echo "ls     |        |         | => List all Messages\n";
+    echo "-------|--------|---------|\n";
+    echo "rm     | #      |         | => Delete the # Message\n";
+    echo "-------|--------|---------|\n";
+    echo "rm     | *      |         | => Delete all Messages\n";
+    echo "-------|--------|---------|\n";
+    echo "snd    | Phone# | Message | => Send The 'Message' to Phone#\n";
+    echo "-------|--------|---------|\n";
+    echo "wifi   | on/off |         | => Enable or Disable Wifi\n";
+    echo "-------|--------|---------|\n";
+    echo "wan    | on/off |         | => Enable or Disable WAN\n";
+    echo "-------|--------|---------|\n";
+    echo "hack   |        |         | => Hack Modem\n";
+    echo "-------|--------|---------|\n";
+    echo "data   | on/off |         | => Enable or Disable Data Connection\n";
+    echo "-------|--------|---------|\n";
+    echo "device |        |         | => Device Info\n";
+    echo "-------|--------|---------|\n";
     exit;
   }
 
@@ -66,7 +74,7 @@ if ($argv[1] == 'login') {
     exit;
   }
 
-  if ( ($argv[2]!="on") &&  ($argv[2]!="off") ) {
+  if (($argv[2]!="on") &&  ($argv[2]!="off")) {
     echo "on or off\n";
     exit;
   }
@@ -110,7 +118,7 @@ if ($argv[1] == 'ls') {
 }
 
 // Delete Message
-if ( ($argv[1] == 'rm')) {
+if (($argv[1] == 'rm')) {
 
   if(!array_key_exists(2,$argv)) {
     echo 'No message # or "*" for all'."\n";
@@ -185,14 +193,14 @@ if ($argv[1] =='snd') {
 
 use ZTE\Wifi;
 // Enable or Disable Wifi
-if ( ($argv[1] == 'wifi')) {
+if (($argv[1] == 'wifi')) {
 
   if(!array_key_exists(2,$argv)) {
     echo "on or off\n";
     exit;
   }
 
-  if ( ($argv[2]!="on") &&  ($argv[2]!="off") ) {
+  if (($argv[2]!="on") &&  ($argv[2]!="off")) {
     echo "on or off\n";
     exit;
   }
@@ -227,7 +235,7 @@ if ($argv[1] == 'wan') {
     exit;
   }
 
-  if ( ($argv[2]!="on") &&  ($argv[2]!="off") ) {
+  if (($argv[2]!="on") &&  ($argv[2]!="off")) {
     echo "on or off\n";
     exit;
   }
@@ -255,7 +263,7 @@ if ($argv[1] == 'wan') {
 
 use ZTE\Hack;
 // Hack Modem
-if ( ($argv[1] == 'hack')) {
+if (($argv[1] == 'hack')) {
 
   $hack = new Hack($modem_ip, $passwd);
   $back = $hack->factory_backdoor();
@@ -264,6 +272,62 @@ if ( ($argv[1] == 'hack')) {
   var_dump($root);
   $nvram = $hack->exploits_nvram();
   var_dump($nvram);
+
+  // Do Logout
+  $login = new Login($modem_ip, 'OUT', $passwd);
+  $login->login_logout();
+}
+
+use ZTE\Connection;
+// Enable or Disable Connection
+if (($argv[1] == 'data')) {
+
+  if(!array_key_exists(2,$argv)) {
+    echo "on or off\n";
+    exit;
+  }
+
+  if (($argv[2]!="on") &&  ($argv[2]!="off")) {
+    echo "on or off\n";
+    exit;
+  }
+
+  // First do Login
+  $login = new Login($modem_ip, 'IN', $passwd);
+  $login->login_logout();
+
+  if ($argv[2]=="on") {
+    $data = new Connection($modem_ip,'ENA');
+    $ret = $data->disable_enable();
+  }
+
+  if ($argv[2]=="off") {
+    $data = new Connection($modem_ip,'DIS');
+    $ret = $data->disable_enable();
+  }
+
+  var_dump($ret);
+
+  // Do Logout
+  $login = new Login($modem_ip, 'OUT', $passwd);
+  $login->login_logout();
+}
+
+use ZTE\Information;
+// Enable or Disable Connection
+if (($argv[1] == 'device')) {
+
+  // First do Login
+  $login = new Login($modem_ip, 'IN', $passwd);
+  $login->login_logout();
+
+  $data = new Information($modem_ip);
+  $ret = $data->dev_info();
+
+  var_dump($ret);
+  if (strlen($argv[2])>1) {
+    file_put_contents($argv[2],$ret['result']);
+  }
 
   // Do Logout
   $login = new Login($modem_ip, 'OUT', $passwd);
