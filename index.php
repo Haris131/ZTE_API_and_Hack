@@ -30,15 +30,13 @@ if (!array_key_exists(1, $argv)) {
   echo "-------|--------|---------|\n";
   echo "hack   |        |         | => Hack Modem\n";
   echo "-------|--------|---------|\n";
-  echo "data   | on/off |         | => Enable or Disable Data Connection\n";
-  echo "-------|--------|---------|\n";
   echo "device |        |         | => Device Info\n";
   echo "-------|--------|---------|\n";
   exit;
 }
 
 if (($argv[1]!='login') && ($argv[1]!='ls') && ($argv[1]!='rm') && ($argv[1]!='snd')
-  && ($argv[1]!='wifi') && ($argv[1]!='wan') && ($argv[1]!='hack') && ($argv[1]!='data') && ($argv[1]!='device')) {
+  && ($argv[1]!='wifi') && ($argv[1]!='wan') && ($argv[1]!='hack') && ($argv[1]!='device')) {
     echo "How to use:\n";
     echo "arg1   |  arg2  |   arg3  |\n";
     echo "-------|--------|---------|\n";
@@ -57,8 +55,6 @@ if (($argv[1]!='login') && ($argv[1]!='ls') && ($argv[1]!='rm') && ($argv[1]!='s
     echo "wan    | on/off |         | => Enable or Disable WAN\n";
     echo "-------|--------|---------|\n";
     echo "hack   |        |         | => Hack Modem\n";
-    echo "-------|--------|---------|\n";
-    echo "data   | on/off |         | => Enable or Disable Data Connection\n";
     echo "-------|--------|---------|\n";
     echo "device |        |         | => Device Info\n";
     echo "-------|--------|---------|\n";
@@ -278,41 +274,6 @@ if (($argv[1] == 'hack')) {
   $login->login_logout();
 }
 
-use ZTE\Connection;
-// Enable or Disable Connection
-if (($argv[1] == 'data')) {
-
-  if(!array_key_exists(2,$argv)) {
-    echo "on or off\n";
-    exit;
-  }
-
-  if (($argv[2]!="on") &&  ($argv[2]!="off")) {
-    echo "on or off\n";
-    exit;
-  }
-
-  // First do Login
-  $login = new Login($modem_ip, 'IN', $passwd);
-  $login->login_logout();
-
-  if ($argv[2]=="on") {
-    $data = new Connection($modem_ip,'ENA');
-    $ret = $data->disable_enable();
-  }
-
-  if ($argv[2]=="off") {
-    $data = new Connection($modem_ip,'DIS');
-    $ret = $data->disable_enable();
-  }
-
-  var_dump($ret);
-
-  // Do Logout
-  $login = new Login($modem_ip, 'OUT', $passwd);
-  $login->login_logout();
-}
-
 use ZTE\Information;
 // Enable or Disable Connection
 if (($argv[1] == 'device')) {
@@ -325,9 +286,9 @@ if (($argv[1] == 'device')) {
   $ret = $data->dev_info();
 
   var_dump($ret);
-  if (strlen($argv[2])>1) {
-    file_put_contents($argv[2],$ret['result']);
-  }
+  //if (strlen($argv[2])>1) {
+  //  file_put_contents($argv[2],$ret['result']);
+  //}
 
   // Do Logout
   $login = new Login($modem_ip, 'OUT', $passwd);
