@@ -48,7 +48,6 @@ php index.php **parameters**
 |   wifi     | on/off     |             |**Enable or Disable Wifi**|
 |   wan      | on/off     |             |**Connect or Disconnect WAN**|
 |   hack     |            |             |**Hack Modem**|
-|   data     | on/off     |             |**Enable or Disable Connection**|
 |   device   |            |             |**Device Information**|
 **Obs:** Tested with PHP 7.2.29
 
