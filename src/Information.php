@@ -20,7 +20,7 @@ class Information
   {
 
     $data = '?multi_data=1';
-    $data .= '&cmd=manufacturer_name,model_name,network_provider,network_type,lte_rsrp,lte_rsrq,lte_rssi,lte_snr,cell_id,lac_code,hmcc,hmnc,rmcc,rmnc,rssi,rscp,ecio';
+    $data .= '&cmd=model_name,network_provider,network_type,lte_rsrp,lte_rsrq,lte_rssi,cell_id,lac_code,hmcc,hmnc,rmcc,rmnc,rssi';
 
     $curl = new Curl($this->_modem_ip, 'GET', $data);
     $result = $curl->get_post();
