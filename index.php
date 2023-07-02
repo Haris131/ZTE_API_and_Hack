@@ -12,52 +12,56 @@ if ((strlen($modem_ip)<1) && (strlen($passwd)<1)) {
 
 if (!array_key_exists(1, $argv)) {
   echo "How to use:\n";
-  echo "arg1   |  arg2  |   arg3  |\n";
-  echo "-------|--------|---------|\n";
-  echo "login  | on/off |         | => Login or Logoff\n";
-  echo "-------|--------|---------|\n";
-  echo "ls     |        |         | => List all Messages\n";
-  echo "-------|--------|---------|\n";
-  echo "rm     | #      |         | => Delete the # Message\n";
-  echo "-------|--------|---------|\n";
-  echo "rm     | *      |         | => Delete all Messages\n";
-  echo "-------|--------|---------|\n";
-  echo "snd    | Phone# | Message | => Send The 'Message' to Phone#\n";
-  echo "-------|--------|---------|\n";
-  echo "wifi   | on/off |         | => Enable or Disable Wifi\n";
-  echo "-------|--------|---------|\n";
-  echo "wan    | on/off |         | => Enable or Disable WAN\n";
-  echo "-------|--------|---------|\n";
-  echo "hack   |        |         | => Hack Modem\n";
-  echo "-------|--------|---------|\n";
-  echo "device |        |         | => Device Info\n";
-  echo "-------|--------|---------|\n";
+  echo "arg1   |       arg2       |   arg3  |\n";
+  echo "-------|------------------|---------|\n";
+  echo "login  |      on/off      |         | => Login or Logoff\n";
+  echo "-------|------------------|---------|\n";
+  echo "ls     |                  |         | => List all Messages\n";
+  echo "-------|------------------|---------|\n";
+  echo "rm     |        #         |         | => Delete the # Message\n";
+  echo "-------|------------------|---------|\n";
+  echo "rm     |        *         |         | => Delete all Messages\n";
+  echo "-------|------------------|---------|\n";
+  echo "snd    |      Phone#      | Message | => Send The 'Message' to Phone#\n";
+  echo "-------|------------------|---------|\n";
+  echo "wifi   |      on/off      |         | => Enable or Disable Wifi\n";
+  echo "-------|------------------|---------|\n";
+  echo "wan    |      on/off      |         | => Enable or Disable WAN\n";
+  echo "-------|------------------|---------|\n";
+  echo "hack   |                  |         | => Hack Modem\n";
+  echo "-------|------------------|---------|\n";
+  echo "device |                  |         | => Device Info\n";
+  echo "-------|------------------|---------|\n";
+  echo "band   | all/b1/b3/b8/b40 |         | => Device Info\n";
+  echo "-------|------------------|---------|\n";
   exit;
 }
 
-if (($argv[1]!='login') && ($argv[1]!='ls') && ($argv[1]!='rm') && ($argv[1]!='snd')
+if (($argv[1]!='login') && ($argv[1]!='ls') && ($argv[1]!='rm') && ($argv[1]!='snd') && ($argv[1]!='band')
   && ($argv[1]!='wifi') && ($argv[1]!='wan') && ($argv[1]!='hack') && ($argv[1]!='device')) {
     echo "How to use:\n";
-    echo "arg1   |  arg2  |   arg3  |\n";
-    echo "-------|--------|---------|\n";
-    echo "login  | on/off |         | => Login or Logoff\n";
-    echo "-------|--------|---------|\n";
-    echo "ls     |        |         | => List all Messages\n";
-    echo "-------|--------|---------|\n";
-    echo "rm     | #      |         | => Delete the # Message\n";
-    echo "-------|--------|---------|\n";
-    echo "rm     | *      |         | => Delete all Messages\n";
-    echo "-------|--------|---------|\n";
-    echo "snd    | Phone# | Message | => Send The 'Message' to Phone#\n";
-    echo "-------|--------|---------|\n";
-    echo "wifi   | on/off |         | => Enable or Disable Wifi\n";
-    echo "-------|--------|---------|\n";
-    echo "wan    | on/off |         | => Enable or Disable WAN\n";
-    echo "-------|--------|---------|\n";
-    echo "hack   |        |         | => Hack Modem\n";
-    echo "-------|--------|---------|\n";
-    echo "device |        |         | => Device Info\n";
-    echo "-------|--------|---------|\n";
+    echo "arg1   |       arg2       |   arg3  |\n";
+    echo "-------|------------------|---------|\n";
+    echo "login  |      on/off      |         | => Login or Logoff\n";
+    echo "-------|------------------|---------|\n";
+    echo "ls     |                  |         | => List all Messages\n";
+    echo "-------|------------------|---------|\n";
+    echo "rm     |        #         |         | => Delete the # Message\n";
+    echo "-------|------------------|---------|\n";
+    echo "rm     |        *         |         | => Delete all Messages\n";
+    echo "-------|------------------|---------|\n";
+    echo "snd    |      Phone#      | Message | => Send The 'Message' to Phone#\n";
+    echo "-------|------------------|---------|\n";
+    echo "wifi   |      on/off      |         | => Enable or Disable Wifi\n";
+    echo "-------|------------------|---------|\n";
+    echo "wan    |      on/off      |         | => Enable or Disable WAN\n";
+    echo "-------|------------------|---------|\n";
+    echo "hack   |                  |         | => Hack Modem\n";
+    echo "-------|------------------|---------|\n";
+    echo "device |                  |         | => Device Info\n";
+    echo "-------|------------------|---------|\n";
+    echo "band   | all/b1/b3/b8/b40 |         | => Device Info\n";
+    echo "-------|------------------|---------|\n";
     exit;
   }
 
@@ -286,9 +290,59 @@ if (($argv[1] == 'device')) {
   $ret = $data->dev_info();
 
   var_dump($ret);
-  //if (strlen($argv[2])>1) {
-  //  file_put_contents($argv[2],$ret['result']);
-  //}
+  if (array_key_exists(2,$argv)) {
+    file_put_contents($argv[2],$ret['result']);
+  }
+
+  // Do Logout
+  $login = new Login($modem_ip, 'OUT', $passwd);
+  $login->login_logout();
+}
+
+use ZTE\LockBand;
+// Lock Band
+if ($argv[1] == 'band') {
+
+  if(!array_key_exists(2,$argv)) {
+    echo "all or b1 or b3 or b8 or b40\n";
+    exit;
+  }
+
+  if (($argv[2]!="all") && ($argv[2]!="b1") && ($argv[2]!="b3") && ($argv[2]!="b8") && ($argv[2]!="b40")) {
+    echo "all or b1 or b3 or b8 or b40\n";
+    exit;
+  }
+
+  // First do Login
+  $login = new Login($modem_ip, 'IN', $passwd);
+  $login->login_logout();
+
+  if ($argv[2]=="all") {
+    $lockband = new LockBand($modem_ip,'ALL');
+    $ret = $lockband->lock_unlock_band();
+  }
+
+  if ($argv[2]=="b1") {
+    $lockband = new LockBand($modem_ip,'B1');
+    $ret = $lockband->lock_unlock_band();
+  }
+
+  if ($argv[2]=="b3") {
+    $lockband = new LockBand($modem_ip,'B3');
+    $ret = $lockband->lock_unlock_band();
+  }
+
+  if ($argv[2]=="b8") {
+    $lockband = new LockBand($modem_ip,'B8');
+    $ret = $lockband->lock_unlock_band();
+  }
+
+  if ($argv[2]=="b40") {
+    $lockband = new LockBand($modem_ip,'B40');
+    $ret = $lockband->lock_unlock_band();
+  }
+
+  var_dump($ret);
 
   // Do Logout
   $login = new Login($modem_ip, 'OUT', $passwd);
