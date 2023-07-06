@@ -32,7 +32,7 @@ if (!array_key_exists(1, $argv)) {
   echo "-------|------------------|---------|\n";
   echo "device |                  |         | => Device Info\n";
   echo "-------|------------------|---------|\n";
-  echo "band   | all/b1/b3/b8/b40 |         | => Device Info\n";
+  echo "band   | all/b1/b3/b8/b40 |         | => Lock Band\n";
   echo "-------|------------------|---------|\n";
   exit;
 }
@@ -60,7 +60,7 @@ if (($argv[1]!='login') && ($argv[1]!='ls') && ($argv[1]!='rm') && ($argv[1]!='s
     echo "-------|------------------|---------|\n";
     echo "device |                  |         | => Device Info\n";
     echo "-------|------------------|---------|\n";
-    echo "band   | all/b1/b3/b8/b40 |         | => Device Info\n";
+    echo "band   | all/b1/b3/b8/b40 |         | => Lock Band\n";
     echo "-------|------------------|---------|\n";
     exit;
   }
